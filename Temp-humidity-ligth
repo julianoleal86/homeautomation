@@ -1,0 +1,54 @@
+// This #include statement was automatically added by the Particle IDE.
+#include <PietteTech_DHT.h>
+
+// This #include statement was automatically added by the Particle IDE.
+#include <PietteTech_DHT.h>
+
+// This #include statement was automatically added by the Particle IDE.
+//#include <Adafruit_DHT.h>
+// This #include statement was automatically added by the Particle IDE.
+//#include "Adafruit_DHT/Adafruit_DHT.h"
+
+// DHT parameters
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
+// Variables
+int temperature;
+int humidity;
+int light;
+
+// Pins
+// ldr sensor
+int light_sensor_pin = A0;
+
+// DHT sensor
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+    
+    // Start DHT sensor
+    dht.begin();
+}
+
+void loop() {
+    
+    // Humidity measurement
+    temperature = dht.getTempCelcius();
+    
+    // Humidity measurement
+    humidity = dht.getHumidity();
+    
+    // Light level measurement
+    float light_measurement = analogRead(light_sensor_pin);
+    light = (int)(light_measurement/4096*100);
+    
+    // Publish data
+    Spark.publish("Temperature", String(temperature) + " °C");
+    delay(3000);
+    Spark.publish("Humidity", String(humidity) + "%");
+    delay(3000);
+    Spark.publish("Light", String(light) + "%");
+    delay(3000);
+    
+}
